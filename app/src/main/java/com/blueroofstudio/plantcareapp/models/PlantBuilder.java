@@ -6,7 +6,7 @@ public class PlantBuilder {
 
     private Plant plant;
 
-    public PlantBuilder(int id, String name) {
+    public PlantBuilder(Integer id, String name) {
         plant = new Plant(id, name);
     }
 

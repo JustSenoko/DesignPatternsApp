@@ -6,7 +6,7 @@ import java.util.Date;
 
 public class Plant implements Observer {
 
-    private int id;
+    private Integer id;
     private String name;
     private Date lastWatering;
     private int daysBetweenWatering;
@@ -18,12 +18,12 @@ public class Plant implements Observer {
     private int maxComfortTemperature = 25;
     private int deltaDays = 0;
 
-    public Plant(int id, String name) {
+    public Plant(Integer id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -59,7 +59,7 @@ public class Plant implements Observer {
         return maxComfortTemperature;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
