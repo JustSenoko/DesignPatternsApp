@@ -1,8 +1,10 @@
 package com.blueroofstudio.plantcareapp.models;
 
+import com.blueroofstudio.plantcareapp.conditions.Observer;
+
 import java.util.Date;
 
-public class Plant {
+public class Plant implements Observer {
 
     private int id;
     private String name;
@@ -12,6 +14,9 @@ public class Plant {
     private int daysBetweenFertilizing;
     private Date lastTransplanting;
     private int monthsBetweenTransplanting;
+
+    private int maxComfortTemperature = 25;
+    private int deltaDays = 0;
 
     public Plant(int id, String name) {
         this.id = id;
@@ -31,7 +36,7 @@ public class Plant {
     }
 
     public int getDaysBetweenWatering() {
-        return daysBetweenWatering;
+        return daysBetweenWatering + deltaDays;
     }
 
     public Date getLastFertilizing() {
@@ -48,6 +53,10 @@ public class Plant {
 
     public int getMonthsBetweenTransplanting() {
         return monthsBetweenTransplanting;
+    }
+
+    public int getMaxComfortTemperature() {
+        return maxComfortTemperature;
     }
 
     public void setId(int id) {
@@ -80,5 +89,19 @@ public class Plant {
 
     public void setMonthsBetweenTransplanting(int monthsBetweenTransplanting) {
         this.monthsBetweenTransplanting = monthsBetweenTransplanting;
+    }
+
+    public void setMaxComfortTemperature(int maxComfortTemperature) {
+        this.maxComfortTemperature = maxComfortTemperature;
+    }
+
+    @Override
+    public void notifyTemperature(int temp) {
+        if (temp > maxComfortTemperature) {
+            deltaDays = -1;
+            System.out.printf("Температура %d слишком велика для %s, его надо поливать чаще", temp, name);
+        } else {
+            deltaDays = 0;
+        }
     }
 }
