@@ -8,11 +8,11 @@ import com.blueroofstudio.plantcareapp.activities.NewPlantActivity;
 
 import java.util.List;
 
-public class PlantPresenter {
+public class PlantController {
     private MainActivity view;
     private PlantModel model;
 
-    public PlantPresenter(PlantModel model) {
+    public PlantController(PlantModel model) {
         this.model = model;
     }
 

@@ -14,7 +14,7 @@ import com.blueroofstudio.plantcareapp.database.DBHelper;
 import com.blueroofstudio.plantcareapp.database.DBHelperImpl;
 import com.blueroofstudio.plantcareapp.plant.Plant;
 import com.blueroofstudio.plantcareapp.plant.PlantListAdapter;
-import com.blueroofstudio.plantcareapp.plant.PlantPresenter;
+import com.blueroofstudio.plantcareapp.plant.PlantController;
 import com.blueroofstudio.plantcareapp.plant.PlantModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -23,7 +23,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private PlantListAdapter adapter;
-    private PlantPresenter presenter;
+    private PlantController presenter;
     private final int NEW_PLANT_REQUEST = 444;
 
     @Override
@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
         DBHelper dbHelper = new DBHelperImpl();
         PlantModel model = new PlantModel(dbHelper);
-        presenter = new PlantPresenter(model);
+        presenter = new PlantController(model);
         presenter.attachView(this);
         presenter.loadPlants();
     }
