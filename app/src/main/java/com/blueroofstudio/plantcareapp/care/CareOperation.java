@@ -1,6 +1,6 @@
 package com.blueroofstudio.plantcareapp.care;
 
-import com.blueroofstudio.plantcareapp.models.Plant;
+import com.blueroofstudio.plantcareapp.plant.Plant;
 
 import java.util.Date;
 
