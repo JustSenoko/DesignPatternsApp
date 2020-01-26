@@ -1,7 +1,7 @@
 package com.blueroofstudio.plantcareapp.database;
 
 
-import com.blueroofstudio.plantcareapp.models.Plant;
+import com.blueroofstudio.plantcareapp.plant.Plant;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

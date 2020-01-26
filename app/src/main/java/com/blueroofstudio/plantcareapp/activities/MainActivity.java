@@ -1,18 +1,16 @@
-package com.blueroofstudio.plantcareapp;
+package com.blueroofstudio.plantcareapp.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.blueroofstudio.plantcareapp.care.CareOperation;
-import com.blueroofstudio.plantcareapp.care.CareType;
-import com.blueroofstudio.plantcareapp.care.CompositeCare;
-import com.blueroofstudio.plantcareapp.care.PlantCare;
+import com.blueroofstudio.plantcareapp.R;
 import com.blueroofstudio.plantcareapp.conditions.TemperatureSensor;
-import com.blueroofstudio.plantcareapp.models.Plant;
-import com.blueroofstudio.plantcareapp.models.PlantBuilder;
+import com.blueroofstudio.plantcareapp.plant.Plant;
+import com.blueroofstudio.plantcareapp.plant.PlantBuilder;
 
 import java.util.Date;
 
@@ -23,7 +21,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Plant cactus1 = new PlantBuilder(1, "Cactus 1")
+        Button btnAddPlant = findViewById(R.id.btn_add_plant);
+        btnAddPlant.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, NewPlantActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        /*Plant cactus1 = new PlantBuilder(1, "Cactus 1")
                 .addWatering(new Date(2020, 1, 1), 10)
                 .build();
 
@@ -48,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 sensor.measure();
             }
-        });
+        });*/
 
         /*PlantCare waterCactus1 = new CareOperation(cactus1, CareType.WATER);
         PlantCare waterCactus2 = new CareOperation(cactus2, CareType.WATER);

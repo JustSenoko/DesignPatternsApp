@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">PlantCareApp</string>
+    <string name="empty_values">Set name and days between waterings</string>
 </resources>

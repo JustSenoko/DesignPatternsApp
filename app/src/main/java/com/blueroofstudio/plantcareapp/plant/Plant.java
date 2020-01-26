@@ -1,4 +1,4 @@
-package com.blueroofstudio.plantcareapp.models;
+package com.blueroofstudio.plantcareapp.plant;
 
 import com.blueroofstudio.plantcareapp.conditions.Observer;
 

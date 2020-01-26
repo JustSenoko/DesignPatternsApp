@@ -1,4 +1,4 @@
-package com.blueroofstudio.plantcareapp.models;
+package com.blueroofstudio.plantcareapp.plant;
 
 import java.util.Date;
 
