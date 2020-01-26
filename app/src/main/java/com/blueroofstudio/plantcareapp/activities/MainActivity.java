@@ -23,7 +23,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private PlantListAdapter adapter;
-    private PlantController presenter;
+    private PlantController controller;
     private final int NEW_PLANT_REQUEST = 444;
 
     @Override
@@ -49,25 +49,23 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        DBHelper dbHelper = new DBHelperImpl();
-        PlantModel model = new PlantModel(dbHelper);
-        presenter = new PlantController(model);
-        presenter.attachView(this);
-        presenter.loadPlants();
+        controller = new PlantController();
+        controller.attachView(this);
+        controller.loadPlants();
     }
 
     public void showPlants(List<Plant> plants) {
         adapter.setData(plants);
     }
 
-    public void showToast(int resId) {
-        Toast.makeText(this, resId, Toast.LENGTH_SHORT).show();
+    public void showToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        presenter.detachView();
+        controller.detachView();
     }
 
     @Override
@@ -78,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
             if (requestCode == NEW_PLANT_REQUEST) {
                 String name = data.getStringExtra("NAME");
                 int days = data.getIntExtra("DAYS", 0);
-                presenter.add(name, days);
+                controller.add(name, days);
             }
         }
     }

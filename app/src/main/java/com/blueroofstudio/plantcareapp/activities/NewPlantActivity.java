@@ -31,7 +31,8 @@ public class NewPlantActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.putExtra("NAME", etName.getText().toString());
-                intent.putExtra("DAYS", (int) Integer.valueOf(etDays.getText().toString()));
+                String days = etDays.getText().toString();
+                intent.putExtra("DAYS", (int) Integer.valueOf((days.isEmpty() ? "0" : days)));
                 setResult(RESULT_OK, intent);
                 finish();
             }
