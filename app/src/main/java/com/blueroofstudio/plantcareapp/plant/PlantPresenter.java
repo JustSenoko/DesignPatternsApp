@@ -3,17 +3,20 @@ package com.blueroofstudio.plantcareapp.plant;
 import android.text.TextUtils;
 
 import com.blueroofstudio.plantcareapp.R;
+import com.blueroofstudio.plantcareapp.activities.MainActivity;
 import com.blueroofstudio.plantcareapp.activities.NewPlantActivity;
 
+import java.util.List;
+
 public class PlantPresenter {
-    private NewPlantActivity view;
+    private MainActivity view;
     private PlantModel model;
 
     public PlantPresenter(PlantModel model) {
         this.model = model;
     }
 
-    public void attachView(NewPlantActivity view) {
+    public void attachView(MainActivity view) {
         this.view = view;
     }
 
@@ -22,20 +25,14 @@ public class PlantPresenter {
     }
 
     public void loadPlants() {
-        model.loadPlants();
+        List<Plant> plants = model.loadPlants();
+        view.showPlants(plants);
     }
 
-    public void add() {
-        Plant plant = view.getPlantData();
-        if (TextUtils.isEmpty(plant.getName()) || plant.getDaysBetweenWatering() == 0) {
-            view.showToast(R.string.empty_values);
-            return;
-        }
+    public void add(String name, int days) {
+        Plant plant = new Plant(0, name);
+        plant.setDaysBetweenWatering(days);
         model.add(plant);
-    }
-
-    public void delete(Plant plant) {
-        model.delete(plant);
         loadPlants();
     }
 }

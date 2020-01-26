@@ -1,73 +1,85 @@
 package com.blueroofstudio.plantcareapp.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
+import android.widget.Toast;
 
 import com.blueroofstudio.plantcareapp.R;
-import com.blueroofstudio.plantcareapp.conditions.TemperatureSensor;
+import com.blueroofstudio.plantcareapp.database.DBHelper;
+import com.blueroofstudio.plantcareapp.database.DBHelperImpl;
 import com.blueroofstudio.plantcareapp.plant.Plant;
-import com.blueroofstudio.plantcareapp.plant.PlantBuilder;
+import com.blueroofstudio.plantcareapp.plant.PlantListAdapter;
+import com.blueroofstudio.plantcareapp.plant.PlantPresenter;
+import com.blueroofstudio.plantcareapp.plant.PlantModel;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.Date;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+
+    private PlantListAdapter adapter;
+    private PlantPresenter presenter;
+    private final int NEW_PLANT_REQUEST = 444;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button btnAddPlant = findViewById(R.id.btn_add_plant);
+        adapter = new PlantListAdapter();
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+
+        RecyclerView userList = findViewById(R.id.plants);
+        userList.setLayoutManager(layoutManager);
+        userList.setAdapter(adapter);
+
+        FloatingActionButton btnAddPlant = findViewById(R.id.fab);
         btnAddPlant.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, NewPlantActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, NEW_PLANT_REQUEST);
             }
         });
 
-        /*Plant cactus1 = new PlantBuilder(1, "Cactus 1")
-                .addWatering(new Date(2020, 1, 1), 10)
-                .build();
+        DBHelper dbHelper = new DBHelperImpl();
+        PlantModel model = new PlantModel(dbHelper);
+        presenter = new PlantPresenter(model);
+        presenter.attachView(this);
+        presenter.loadPlants();
+    }
 
-        Plant cactus2 = new PlantBuilder(1, "Cactus 2")
-                .addWatering(new Date(2020, 1, 1), 15)
-                .build();
+    public void showPlants(List<Plant> plants) {
+        adapter.setData(plants);
+    }
 
-        Plant grass = new PlantBuilder(1, "Grass")
-                .addWatering(new Date(2020, 1, 1), 3)
-                .addFertilizing(new Date(2020, 1, 1), 90)
-                .addTransplanting(new Date(2020, 1, 1), 6)
-                .build();
+    public void showToast(int resId) {
+        Toast.makeText(this, resId, Toast.LENGTH_SHORT).show();
+    }
 
-        final TemperatureSensor sensor = new TemperatureSensor();
-        sensor.addObserver(cactus1);
-        sensor.addObserver(cactus2);
-        sensor.addObserver(grass);
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        presenter.detachView();
+    }
 
-        Button btnMeasure = findViewById(R.id.btn_measure_temp);
-        btnMeasure.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                sensor.measure();
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == NEW_PLANT_REQUEST) {
+                String name = data.getStringExtra("NAME");
+                int days = data.getIntExtra("DAYS", 0);
+                presenter.add(name, days);
             }
-        });*/
-
-        /*PlantCare waterCactus1 = new CareOperation(cactus1, CareType.WATER);
-        PlantCare waterCactus2 = new CareOperation(cactus2, CareType.WATER);
-        PlantCare waterGrass = new CareOperation(grass, CareType.WATER);
-        PlantCare fertilizeGrass = new CareOperation(grass, CareType.FERTILIZE);
-        PlantCare transplantGrass = new CareOperation(grass, CareType.TRANSPLANT);
-        PlantCare careGrass = new CompositeCare().add(waterGrass,fertilizeGrass,transplantGrass);
-
-        // использование разных по структуре операций идентично
-        waterCactus1.perform();
-        waterCactus2.perform();
-        careGrass.perform();*/
-
+        }
     }
 }

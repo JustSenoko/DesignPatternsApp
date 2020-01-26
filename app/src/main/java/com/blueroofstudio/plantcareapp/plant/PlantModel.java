@@ -2,6 +2,8 @@ package com.blueroofstudio.plantcareapp.plant;
 
 import com.blueroofstudio.plantcareapp.database.DBHelper;
 
+import java.util.List;
+
 public class PlantModel {
 
     private final DBHelper dbHelper;
@@ -10,8 +12,8 @@ public class PlantModel {
         this.dbHelper = dbHelper;
     }
 
-    public void loadPlants() {
-        dbHelper.selectAll();
+    public List<Plant> loadPlants() {
+        return dbHelper.selectAll();
     }
 
     public void add(Plant plant) {
